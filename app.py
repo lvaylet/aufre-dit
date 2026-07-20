@@ -16,20 +16,25 @@ st.caption(
     "Posez-moi vos questions sur les inscriptions, le matériel, les week-ends et les camps d'été."
 )
 
-# Vérification de la présence de la clé API Gemini
+# Récupération des variables d'environnement
 api_key = os.getenv("GEMINI_API_KEY")
-if not api_key:
-    st.info(
-        "💡 **Configuration requise** : Veuillez définir la clé d'environnement `GEMINI_API_KEY` (dans les Secrets Streamlit Cloud ou localement)."
-    )
-    st.stop()
-
-# Vérification de la présence de l'URL du document FAQ
 doc_url = os.getenv("FAQ_DOC_URL")
-if not doc_url:
-    st.info(
-        "💡 **Configuration requise** : Veuillez définir la clé d'environnement `FAQ_DOC_URL` (dans les Secrets Streamlit Cloud ou localement)."
-    )
+
+# Vérification de la présence des configurations requises
+if not api_key or not doc_url:
+    if not api_key:
+        st.error(
+            "💡 **Variable `GEMINI_API_KEY` manquante**\n\n"
+            "Générez une clé sur [Google AI Studio](https://aistudio.google.com/) puis :\n\n"
+            "* **En local** : Exécutez `export GEMINI_API_KEY=\"votre_cle_api\"` dans votre terminal ou ajoutez la clé dans `.streamlit/secrets.toml`.\n"
+            "* **Sur Streamlit Cloud** : Définissez `GEMINI_API_KEY = \"votre_cle_api\"` dans **Settings > Secrets**."
+        )
+    if not doc_url:
+        st.error(
+            "💡 **Variable `FAQ_DOC_URL` manquante**\n\n"
+            "* **En local** : Exécutez `export FAQ_DOC_URL=\"https://docs.google.com/document/d/...\"` dans votre terminal ou ajoutez la clé dans `.streamlit/secrets.toml`.\n"
+            "* **Sur Streamlit Cloud** : Définissez `FAQ_DOC_URL = \"https://docs.google.com/document/d/...\"` dans **Settings > Secrets**."
+        )
     st.stop()
 
 
