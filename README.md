@@ -21,18 +21,30 @@ Ce projet propose un chatbot interactif dédié aux parents du groupe SGDF Aufr�
 
 ## 💻 Test en Local
 
-1. Installez les dépendances :
+1. Créez et activez un environnement virtuel Python (`venv`) :
+   - **Linux / macOS** :
+     ```bash
+     python3 -m venv .venv
+     source .venv/bin/activate
+     ```
+   - **Windows** :
+     ```cmd
+     python -m venv .venv
+     .venv\Scripts\activate
+     ```
+
+2. Installez les dépendances :
    ```bash
    pip install -r requirements.txt
    ```
 
-2. Définissez les variables d'environnement :
+3. Définissez les variables d'environnement :
    ```bash
    export GEMINI_API_KEY="votre_cle_api_ici"
    export FAQ_DOC_URL="https://docs.google.com/document/d/1PtDzEbEDFFKPgl_T8rz3PCiLrU8X2Fh2qqsZQqEOgt0"
    ```
 
-3. Lancez l'application Streamlit :
+4. Lancez l'application Streamlit :
    ```bash
    streamlit run app.py
    ```
