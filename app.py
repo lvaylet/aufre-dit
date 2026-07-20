@@ -13,8 +13,8 @@ st.set_page_config(
     layout="centered"
 )
 
-st.title("⚜️ Assistant FAQ - SGDF Aufrédy La Rochelle")
-st.caption("Posez vos questions sur les inscriptions, le matériel, les week-ends et les camps d'été.")
+st.title("⚜️ Aufré-dit - La Rochelle")
+st.caption("Posez-moi vos questions sur les inscriptions, le matériel, les week-ends et les camps d'été.")
 
 @st.cache_data(ttl=3600)
 def load_faq_document() -> str:
@@ -100,3 +100,4 @@ if user_prompt := st.chat_input("Ex: Quels sont les documents obligatoires pour 
             except Exception as e:
                 error_msg = f"Une erreur est survenue lors de la communication avec le service d'IA : {e}"
                 st.error(error_msg)
+
