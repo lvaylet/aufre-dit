@@ -105,6 +105,48 @@ Si vous utilisez NixOS ou le gestionnaire de paquets Nix, un environnement repro
 
 ---
 
+## 📄 Extraction de contenu PDF (`static/`)
+
+L'application charge automatiquement tous les fichiers `.txt` présents dans le dossier `static/` afin d'enrichir la base de connaissances du chatbot.
+
+Pour ajouter un document PDF et générer le fichier `.txt` correspondant dans le dossier `static/` :
+
+### Méthode 1 : Avec `pdftotext` (Recommandé)
+
+`pdftotext` (issu de la suite Poppler) est l'outil le plus rapide et le plus efficace.
+
+1. **Installation** (si l'outil n'est pas disponible) :
+   * **Linux (Debian / Ubuntu)** : `sudo apt install poppler-utils`
+   * **macOS** : `brew install poppler`
+
+2. **Extraction** :
+
+   ```bash
+   pdftotext static/votre_document.pdf static/votre_document.txt
+   ```
+
+   *Exemple avec le guide PDF "Questions de Parents - Édition 2025-2026"* :
+
+   ```bash
+   pdftotext "static/Questions de Parents - Édition 2025-2026.pdf" "static/Questions de Parents - Édition 2025-2026.txt"
+   ```
+
+### Méthode 2 : Avec Python (`pypdf`)
+
+1. Installez `pypdf` dans votre environnement virtuel :
+
+   ```bash
+   pip install pypdf
+   ```
+
+2. Générez le fichier `.txt` via la commande Python suivante :
+
+   ```bash
+   python3 -c "from pypdf import PdfReader; reader = PdfReader('static/votre_document.pdf'); text = '\n'.join([p.extract_text() for p in reader.pages if p.extract_text()]); open('static/votre_document.txt', 'w', encoding='utf-8').write(text)"
+   ```
+
+---
+
 ## 🧪 Tests Unitaires & Pre-commit
 
 Pour installer le hook git localement et exécuter les vérifications (linter, formateur, pyright, pytest) :

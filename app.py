@@ -26,14 +26,14 @@ if not api_key or not doc_url:
         st.error(
             "💡 **Variable `GEMINI_API_KEY` manquante**\n\n"
             "Générez une clé sur [Google AI Studio](https://aistudio.google.com/) puis :\n\n"
-            "* **En local** : Exécutez `export GEMINI_API_KEY=\"votre_cle_api\"` dans votre terminal ou ajoutez la clé dans `.streamlit/secrets.toml`.\n"
-            "* **Sur Streamlit Cloud** : Définissez `GEMINI_API_KEY = \"votre_cle_api\"` dans **Settings > Secrets**."
+            '* **En local** : Exécutez `export GEMINI_API_KEY="votre_cle_api"` dans votre terminal ou ajoutez la clé dans `.streamlit/secrets.toml`.\n'
+            '* **Sur Streamlit Cloud** : Définissez `GEMINI_API_KEY = "votre_cle_api"` dans **Settings > Secrets**.'
         )
     if not doc_url:
         st.error(
             "💡 **Variable `FAQ_DOC_URL` manquante**\n\n"
-            "* **En local** : Exécutez `export FAQ_DOC_URL=\"https://docs.google.com/document/d/...\"` dans votre terminal ou ajoutez la clé dans `.streamlit/secrets.toml`.\n"
-            "* **Sur Streamlit Cloud** : Définissez `FAQ_DOC_URL = \"https://docs.google.com/document/d/...\"` dans **Settings > Secrets**."
+            '* **En local** : Exécutez `export FAQ_DOC_URL="https://docs.google.com/document/d/..."` dans votre terminal ou ajoutez la clé dans `.streamlit/secrets.toml`.\n'
+            '* **Sur Streamlit Cloud** : Définissez `FAQ_DOC_URL = "https://docs.google.com/document/d/..."` dans **Settings > Secrets**.'
         )
     st.stop()
 
@@ -65,7 +65,30 @@ def load_faq_document(url: str) -> str:
         return ""
 
 
+@st.cache_data
+def load_static_documents(folder_path: str = "static") -> str:
+    """Charge le contenu texte de tous les fichiers .txt présents dans le dossier static."""
+    documents: list[str] = []
+    if os.path.exists(folder_path):
+        for filename in sorted(os.listdir(folder_path)):
+            if filename.endswith(".txt"):
+                filepath = os.path.join(folder_path, filename)
+                try:
+                    with open(filepath, "r", encoding="utf-8") as f:
+                        content = f.read().strip()
+                        if content:
+                            documents.append(
+                                f"=== DOCUMENT : {filename} ===\n{content}"
+                            )
+                except Exception as e:
+                    st.error(
+                        f"Erreur lors du chargement du document `{filename}` : {e}"
+                    )
+    return "\n\n".join(documents)
+
+
 faq_content = load_faq_document(doc_url)
+static_docs_content = load_static_documents("static")
 
 # Configuration du modèle (supporte GEMINI_MODEL en variable d'environnement)
 model_name = os.getenv("GEMINI_MODEL", "gemini-3.5-flash")
@@ -78,14 +101,18 @@ Tu es l'assistant virtuel officiel du groupe Scouts et Guides de France (SGDF) -
 Ton objectif est de répondre aux questions des parents de manière claire, concise et bienveillante.
 
 RÈGLES IMPÉRATIVES ET STRICTES DE FIDÉLITÉ :
-1. Réponds EXCLUSIVEMENT et STRICTEMENT à partir des informations fournies dans le document FAQ ci-dessous.
+1. Réponds EXCLUSIVEMENT et STRICTEMENT à partir des informations fournies dans les documents de référence ci-dessous.
 2. N'invente aucune information, ne fais aucune supposition et n'utilise pas de connaissances externes.
-3. Si la réponse ne se trouve PAS dans le document FAQ, tu DOIS répondre poliment que l'information n'est pas dans le guide et orienter le parent vers les interlocuteurs appropriés (Maîtrise/Chefs, Secrétariat/Trésorier ou Responsables de Groupe) conformément à la section 5 du document.
+3. Si la réponse ne se trouve PAS dans ces documents, tu DOIS répondre poliment que l'information n'est pas dans le guide et orienter le parent vers les interlocuteurs appropriés (Maîtrise/Chefs, Secrétariat/Trésorier ou Responsables de Groupe) conformément à la section 5 du document FAQ.
 4. Adopte un ton Scout et Guides de France : chaleureux, constructif et serviable.
 
---- DEBUT DU DOCUMENT FAQ DE RÉFÉRENCE ---
+--- DEBUT DE LA FAQ GOOGLE DOC DE RÉFÉRENCE ---
 {faq_content}
---- FIN DU DOCUMENT FAQ DE RÉFÉRENCE ---
+--- FIN DE LA FAQ GOOGLE DOC DE RÉFÉRENCE ---
+
+--- DEBUT DES DOCUMENTS STATIC DE RÉFÉRENCE ---
+{static_docs_content}
+--- FIN DES DOCUMENTS STATIC DE RÉFÉRENCE ---
 """
 
 # Initialisation de l'historique de discussion
