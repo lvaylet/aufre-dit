@@ -57,12 +57,13 @@ Ce projet propose un chatbot interactif dédié aux parents du groupe SGDF Aufr�
 
 ---
 
-## 🧪 Tests Unitaires
+## 🧪 Tests Unitaires & Pre-commit
 
-Pour lancer les tests unitaires avec pytest :
+Pour installer le hook git localement et exécuter les vérifications (linter, formateur, pyright, pytest) :
 
 ```bash
-pytest
+pre-commit install
+pre-commit run --all-files
 ```
 
 ---
