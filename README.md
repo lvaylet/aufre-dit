@@ -39,6 +39,16 @@ Ce projet propose un chatbot interactif dédié aux parents du groupe SGDF Aufr�
 
 ---
 
+## 🧪 Tests Unitaires
+
+Pour lancer les tests unitaires (par exemple la validation du formatage des URL d'export du Google Doc) :
+
+```bash
+python -m unittest test_app.py
+```
+
+---
+
 ## 🌐 Hébergement Gratuit et Simple (Streamlit Community Cloud)
 
 1. Publiez ce projet sur votre compte **GitHub** (dépôt public ou privé).
