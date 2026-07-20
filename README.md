@@ -71,7 +71,7 @@ python -m unittest test_app.py
 
 1. Publiez ce projet sur votre compte **GitHub** (dépôt public ou privé).
 2. Connectez-vous sur [share.streamlit.io](https://share.streamlit.io/) avec votre compte GitHub.
-3. Cliquez sur **New app** et sélectionnez votre dépôt `sgdf-chatbot`.
+3. Cliquez sur **New app** et sélectionnez votre dépôt `aufre-dit`.
 4. Dans les **Advanced settings** / **Secrets**, ajoutez votre clé API et l'URL de votre FAQ :
 
    ```toml
@@ -85,4 +85,4 @@ python -m unittest test_app.py
    > * `https://docs.google.com/document/d/<ID>/edit`
    > * `https://docs.google.com/document/d/<ID>/export?format=txt`
 
-5. Cliquez sur **Deploy**. Votre chatbot sera disponible gratuitement sur une URL de type `https://sgdf-chatbot.streamlit.app` accessible par tous les parents.
+5. Cliquez sur **Deploy**. Votre chatbot sera disponible gratuitement sur une URL de type `https://aufre-dit.streamlit.app` accessible par tous les parents.
