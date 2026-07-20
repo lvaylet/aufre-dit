@@ -21,6 +21,8 @@ Ce projet propose un chatbot interactif dédié aux parents du groupe SGDF Aufr�
 
 ## 💻 Test en Local
 
+### Méthode standard (virtualenv)
+
 1. Créez et activez un environnement virtuel Python (`venv`) :
    * **Linux / macOS** :
 
@@ -42,11 +44,18 @@ Ce projet propose un chatbot interactif dédié aux parents du groupe SGDF Aufr�
    pip install -r requirements-dev.txt
    ```
 
-3. Définissez les variables d'environnement :
+3. Définissez les variables d'environnement, soit dans le terminal :
 
    ```bash
    export GEMINI_API_KEY="votre_cle_api_ici"
    export FAQ_DOC_URL="https://docs.google.com/document/d/1PtDzEbEDFFKPgl_T8rz3PCiLrU8X2Fh2qqsZQqEOgt0"
+   ```
+
+   Soit dans le fichier `.streamlit/secrets.toml` :
+
+   ```toml
+   GEMINI_API_KEY = "votre_cle_api_ici"
+   FAQ_DOC_URL = "https://docs.google.com/document/d/1PtDzEbEDFFKPgl_T8rz3PCiLrU8X2Fh2qqsZQqEOgt0"
    ```
 
 4. Lancez l'application Streamlit :
@@ -54,6 +63,45 @@ Ce projet propose un chatbot interactif dédié aux parents du groupe SGDF Aufr�
    ```bash
    streamlit run app.py
    ```
+
+### Méthode NixOS / Nix
+
+Si vous utilisez NixOS ou le gestionnaire de paquets Nix, un environnement reproductible complet est disponible (via `shell.nix` et `flake.nix`). Il fournit nativement Python 3, Streamlit, les outils de linting/tests (Ruff, Pyright, Pre-commit) et `just`.
+
+1. **Activez l'environnement de développement** :
+   * Avec les Flakes (recommandé) :
+
+     ```bash
+     nix develop
+     ```
+
+   * Sans Flakes (classique) :
+
+     ```bash
+     nix-shell
+     ```
+
+   * Avec `direnv` (chargement automatique à l'entrée dans le répertoire) :
+
+     ```bash
+     direnv allow
+     ```
+
+2. **Définissez les variables d'environnement** :
+   Exportez `GEMINI_API_KEY` et `FAQ_DOC_URL` dans votre terminal comme indiqué dans la méthode standard.
+
+3. **Exécutez l'application** :
+   * Lancement direct :
+
+     ```bash
+     streamlit run app.py
+     ```
+
+   * Lancement via `just` (en indiquant d'utiliser les paquets de la Nix shell plutôt que le `.venv`) :
+
+     ```bash
+     just --set bin_dir "" run
+     ```
 
 ---
 
