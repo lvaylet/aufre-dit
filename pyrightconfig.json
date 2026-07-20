@@ -4,13 +4,13 @@
   "venv": ".venv",
   "include": [
     "app.py",
-    "test_app.py",
+    "test_app.py"
   ],
   "exclude": [
     ".venv",
 
     "**/node_modules",
     "**/__pycache__",
-    "**/.*",
-  ],
+    "**/.*"
+  ]
 }
