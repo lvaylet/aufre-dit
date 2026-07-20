@@ -22,29 +22,35 @@ Ce projet propose un chatbot interactif dédié aux parents du groupe SGDF Aufr�
 ## 💻 Test en Local
 
 1. Créez et activez un environnement virtuel Python (`venv`) :
-   - **Linux / macOS** :
+   * **Linux / macOS** :
+
      ```bash
      python3 -m venv .venv
      source .venv/bin/activate
      ```
-   - **Windows** :
+
+   * **Windows** :
+
      ```cmd
      python -m venv .venv
      .venv\Scripts\activate
      ```
 
 2. Installez les dépendances :
+
    ```bash
    pip install -r requirements.txt
    ```
 
 3. Définissez les variables d'environnement :
+
    ```bash
    export GEMINI_API_KEY="votre_cle_api_ici"
    export FAQ_DOC_URL="https://docs.google.com/document/d/1PtDzEbEDFFKPgl_T8rz3PCiLrU8X2Fh2qqsZQqEOgt0"
    ```
 
 4. Lancez l'application Streamlit :
+
    ```bash
    streamlit run app.py
    ```
@@ -67,15 +73,16 @@ python -m unittest test_app.py
 2. Connectez-vous sur [share.streamlit.io](https://share.streamlit.io/) avec votre compte GitHub.
 3. Cliquez sur **New app** et sélectionnez votre dépôt `sgdf-chatbot`.
 4. Dans les **Advanced settings** / **Secrets**, ajoutez votre clé API et l'URL de votre FAQ :
+
    ```toml
    GEMINI_API_KEY = "votre_cle_api_ici"
    FAQ_DOC_URL = "https://docs.google.com/document/d/1PtDzEbEDFFKPgl_T8rz3PCiLrU8X2Fh2qqsZQqEOgt0"
    ```
 
    > **Note sur `FAQ_DOC_URL`** : L'application formate automatiquement l'URL du Google Doc. Vous pouvez utiliser n'importe laquelle de ces 4 formes :
-   > - `https://docs.google.com/document/d/<ID>`
-   > - `https://docs.google.com/document/d/<ID>/`
-   > - `https://docs.google.com/document/d/<ID>/edit`
-   > - `https://docs.google.com/document/d/<ID>/export?format=txt`
+   > * `https://docs.google.com/document/d/<ID>`
+   > * `https://docs.google.com/document/d/<ID>/`
+   > * `https://docs.google.com/document/d/<ID>/edit`
+   > * `https://docs.google.com/document/d/<ID>/export?format=txt`
 
 5. Cliquez sur **Deploy**. Votre chatbot sera disponible gratuitement sur une URL de type `https://sgdf-chatbot.streamlit.app` accessible par tous les parents.
