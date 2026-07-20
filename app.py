@@ -1,5 +1,6 @@
 import os
 import requests
+from typing import cast
 import streamlit as st
 from google import genai
 from google.genai import types
@@ -95,7 +96,7 @@ if user_prompt := st.chat_input("Ex: Quels sont les documents obligatoires pour 
         st.markdown(user_prompt)
 
     # Structuration de l'historique pour le SDK Gemini API
-    contents = []
+    contents: list[types.Content] = []
     for msg in st.session_state.messages[1:]:  # Omis le message d'accueil
         role = "user" if msg["role"] == "user" else "model"
         contents.append(types.Content(role=role, parts=[types.Part.from_text(text=msg["content"])]))
@@ -105,13 +106,13 @@ if user_prompt := st.chat_input("Ex: Quels sont les documents obligatoires pour 
             try:
                 response = client.models.generate_content(
                     model=model_name,
-                    contents=contents,
+                    contents=cast(types.ContentListUnionDict, contents),
                     config=types.GenerateContentConfig(
                         system_instruction=system_instruction,
                         temperature=0.1,  # Température très basse pour garantir la fidélité au texte
                     )
                 )
-                answer = response.text
+                answer = response.text or ""
                 st.markdown(answer)
                 st.session_state.messages.append({"role": "assistant", "content": answer})
             except Exception as e:
