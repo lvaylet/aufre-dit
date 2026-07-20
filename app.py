@@ -4,9 +4,6 @@ import streamlit as st
 from google import genai
 from google.genai import types
 
-# URL d'exportation au format texte brut du Google Doc FAQ public
-DOC_URL = "https://docs.google.com/document/d/1PtDzEbEDFFKPgl_T8rz3PCiLrU8X2Fh2qqsZQqEOgt0/export?format=txt"
-
 st.set_page_config(
     page_title="Chatbot FAQ - SGDF Aufrédy La Rochelle",
     page_icon="⚜️",
@@ -16,24 +13,44 @@ st.set_page_config(
 st.title("⚜️ Aufré-dit - La Rochelle")
 st.caption("Posez-moi vos questions sur les inscriptions, le matériel, les week-ends et les camps d'été.")
 
+# Vérification de la présence de la clé API Gemini
+api_key = os.getenv("GEMINI_API_KEY")
+if not api_key:
+    st.info("💡 **Configuration requise** : Veuillez définir la clé d'environnement `GEMINI_API_KEY` (dans les Secrets Streamlit Cloud ou localement).")
+    st.stop()
+
+# Vérification de la présence de l'URL du document FAQ
+doc_url = os.getenv("FAQ_DOC_URL")
+if not doc_url:
+    st.info("💡 **Configuration requise** : Veuillez définir la clé d'environnement `FAQ_DOC_URL` (dans les Secrets Streamlit Cloud ou localement).")
+    st.stop()
+
+def format_export_url(raw_url: str) -> str:
+    """Formate l'URL du Google Doc pour s'assurer qu'elle se termine par /export?format=txt."""
+    url = raw_url.strip()
+    if "/export" in url:
+        if "format=txt" not in url:
+            base = url.split("/export")[0]
+            return f"{base}/export?format=txt"
+        return url
+    if "/edit" in url:
+        url = url.split("/edit")[0]
+    url = url.rstrip("/")
+    return f"{url}/export?format=txt"
+
 @st.cache_data(ttl=3600)
-def load_faq_document() -> str:
+def load_faq_document(url: str) -> str:
     """Télécharge le contenu texte à jour du Google Doc FAQ."""
     try:
-        response = requests.get(DOC_URL, timeout=10)
+        export_url = format_export_url(url)
+        response = requests.get(export_url, timeout=10)
         response.raise_for_status()
         return response.text
     except Exception as e:
         st.error(f"Erreur lors du chargement de la FAQ : {e}")
         return ""
 
-faq_content = load_faq_document()
-
-# Vérification de la présence de la clé API Gemini
-api_key = os.getenv("GEMINI_API_KEY")
-if not api_key:
-    st.info("💡 **Configuration requise** : Veuillez définir la clé d'environnement `GEMINI_API_KEY` (dans les Secrets Streamlit Cloud ou localement).")
-    st.stop()
+faq_content = load_faq_document(doc_url)
 
 # Configuration du modèle (supporte GEMINI_MODEL en variable d'environnement)
 model_name = os.getenv("GEMINI_MODEL", "gemini-3.5-flash")

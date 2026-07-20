@@ -26,9 +26,10 @@ Ce projet propose un chatbot interactif dédié aux parents du groupe SGDF Aufr�
    pip install -r requirements.txt
    ```
 
-2. Définissez la clé API d'environnement :
+2. Définissez les variables d'environnement :
    ```bash
    export GEMINI_API_KEY="votre_cle_api_ici"
+   export FAQ_DOC_URL="https://docs.google.com/document/d/1PtDzEbEDFFKPgl_T8rz3PCiLrU8X2Fh2qqsZQqEOgt0"
    ```
 
 3. Lancez l'application Streamlit :
@@ -43,8 +44,16 @@ Ce projet propose un chatbot interactif dédié aux parents du groupe SGDF Aufr�
 1. Publiez ce projet sur votre compte **GitHub** (dépôt public ou privé).
 2. Connectez-vous sur [share.streamlit.io](https://share.streamlit.io/) avec votre compte GitHub.
 3. Cliquez sur **New app** et sélectionnez votre dépôt `sgdf-chatbot`.
-4. Dans les **Advanced settings** / **Secrets**, ajoutez votre clé API :
+4. Dans les **Advanced settings** / **Secrets**, ajoutez votre clé API et l'URL de votre FAQ :
    ```toml
    GEMINI_API_KEY = "votre_cle_api_ici"
+   FAQ_DOC_URL = "https://docs.google.com/document/d/1PtDzEbEDFFKPgl_T8rz3PCiLrU8X2Fh2qqsZQqEOgt0"
    ```
+
+   > **Note sur `FAQ_DOC_URL`** : L'application formate automatiquement l'URL du Google Doc. Vous pouvez utiliser n'importe laquelle de ces 4 formes :
+   > - `https://docs.google.com/document/d/<ID>`
+   > - `https://docs.google.com/document/d/<ID>/`
+   > - `https://docs.google.com/document/d/<ID>/edit`
+   > - `https://docs.google.com/document/d/<ID>/export?format=txt`
+
 5. Cliquez sur **Deploy**. Votre chatbot sera disponible gratuitement sur une URL de type `https://sgdf-chatbot.streamlit.app` accessible par tous les parents.
