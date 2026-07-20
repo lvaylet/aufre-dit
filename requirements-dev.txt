@@ -1,2 +1,3 @@
 -r requirements.txt
-pyright
+pytest>=8.0.0
+pyright>=1.1.0

@@ -36,10 +36,10 @@ Ce projet propose un chatbot interactif dédié aux parents du groupe SGDF Aufr�
      .venv\Scripts\activate
      ```
 
-2. Installez les dépendances :
+2. Installez les dépendances (développement inclus) :
 
    ```bash
-   pip install -r requirements.txt
+   pip install -r requirements-dev.txt
    ```
 
 3. Définissez les variables d'environnement :
@@ -59,10 +59,10 @@ Ce projet propose un chatbot interactif dédié aux parents du groupe SGDF Aufr�
 
 ## 🧪 Tests Unitaires
 
-Pour lancer les tests unitaires (par exemple la validation du formatage des URL d'export du Google Doc) :
+Pour lancer les tests unitaires avec pytest :
 
 ```bash
-python -m unittest test_app.py
+pytest
 ```
 
 ---
