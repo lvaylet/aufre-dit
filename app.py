@@ -35,6 +35,9 @@ if not api_key:
     st.info("💡 **Configuration requise** : Veuillez définir la clé d'environnement `GEMINI_API_KEY` (dans les Secrets Streamlit Cloud ou localement).")
     st.stop()
 
+# Configuration du modèle (supporte GEMINI_MODEL en variable d'environnement)
+model_name = os.getenv("GEMINI_MODEL", "gemini-3.5-flash")
+
 # Initialisation du client Gemini API
 client = genai.Client(api_key=api_key)
 
@@ -84,11 +87,11 @@ if user_prompt := st.chat_input("Ex: Quels sont les documents obligatoires pour 
         with st.spinner("Recherche dans le guide FAQ..."):
             try:
                 response = client.models.generate_content(
-                    model="gemini-2.5-flash",
+                    model=model_name,
                     contents=contents,
                     config=types.GenerateContentConfig(
                         system_instruction=system_instruction,
-                        temperature=0.1,  # Température très basse pour garant la fidélité au texte
+                        temperature=0.1,  # Température très basse pour garantir la fidélité au texte
                     )
                 )
                 answer = response.text

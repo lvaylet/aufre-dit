@@ -6,7 +6,7 @@ Ce projet propose un chatbot interactif dédié aux parents du groupe SGDF Aufr�
 
 * **Fidélité stricte au document** : Le chatbot s'appuie exclusivement sur la FAQ Google Doc du groupe et renvoie vers les contacts appropriés si l'information est absente.
 * **Mise à jour automatique** : Le document est relu directement depuis son URL d'exportation au format texte brut (`export?format=txt`). Toute modification du Google Doc par l'équipe d'animation s'applique au chatbot sans aucune ré-installation.
-* **100% Gratuit** : Hébergement gratuit sur Streamlit Community Cloud et utilisation du quota gratuit de Gemini 2.5 Flash via Google AI Studio.
+* **100% Gratuit** : Hébergement gratuit sur Streamlit Community Cloud et utilisation du quota gratuit de Gemini (ex: Gemini 3.5 Flash) via Google AI Studio.
 
 ---
 
