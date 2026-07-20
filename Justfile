@@ -24,9 +24,9 @@ install: venv
 install-dev: venv
     {{bin_dir}}/pip install -r requirements-dev.txt
 
-# Lance l'application Streamlit en local
+# Lance l'application Streamlit en local avec rechargement automatique à la sauvegarde
 run:
-    {{bin_dir}}/streamlit run app.py
+    {{bin_dir}}/streamlit run app.py --server.runOnSave true
 
 # Exécute les tests unitaires avec pytest
 test:
@@ -36,9 +36,12 @@ test:
 pre-commit-install:
     {{bin_dir}}/pre-commit install
 
-# Exécute toutes les vérifications (linter, formateur, pyright, pytest) via pre-commit
-check:
+# Exécute manuellement tous les hooks git locaux sur l'ensemble des fichiers
+hooks:
     {{bin_dir}}/pre-commit run --all-files
+
+# Exécute toutes les vérifications du projet
+check: hooks
 
 # Nettoie les fichiers temporaires et les caches
 clean:
