@@ -43,4 +43,3 @@ EXPECTED_URL = f"https://docs.google.com/document/d/{DOC_ID}/export?format=txt"
 def test_format_export_url(raw_url: str, expected_url: str) -> None:
     """Tests unitaires pour la fonction format_export_url basés sur les exemples du README.md."""
     assert format_export_url(raw_url) == expected_url
-
