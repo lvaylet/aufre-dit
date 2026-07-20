@@ -18,6 +18,7 @@ in
       ruff
       pyright
       pre-commit
+      ty
     ];
 
     shellHook = ''
@@ -33,6 +34,7 @@ in
       echo "  - just     : ${pkgs.just.version}"
       echo "  - ruff     : ${pkgs.ruff.version}"
       echo "  - pyright  : ${pkgs.pyright.version}"
+      echo "  - ty       : ${pkgs.ty.version}"
       echo "========================================================"
       echo "Tips:"
       echo "  * To run the app directly: streamlit run app.py"
