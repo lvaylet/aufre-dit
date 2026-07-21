@@ -4,13 +4,14 @@ Ce projet propose un chatbot interactif dédié aux parents du groupe SGDF Aufr�
 
 ## 🎯 Fonctionnalités
 
-* **Fidélité stricte au document** : Le chatbot s'appuie exclusivement sur la FAQ Google Doc du groupe et renvoie vers les contacts appropriés si l'information est absente.
+* **Fidélité stricte au document & Citation des sources** : Le chatbot s'appuie exclusivement sur la FAQ Google Doc du groupe et les documents du dossier `static/`. Il cite systématiquement ses sources à chaque réponse (FAQ Google Doc et/ou nom du fichier dans `static/`) et renvoie vers les contacts appropriés si l'information est absente.
+* **Stack Python Moderne** : Packaging standardisé via `pyproject.toml` (PEP 621), validation stricte des configurations avec `pydantic-settings`, requêtes HTTP performantes via `httpx`, et gestionnaire de paquets ultra-rapide `uv`.
 * **Mise à jour automatique** : Le document est relu directement depuis son URL d'exportation au format texte brut (`export?format=txt`). Toute modification du Google Doc par l'équipe d'animation s'applique au chatbot sans aucune ré-installation.
 * **100% Gratuit** : Hébergement gratuit sur Streamlit Community Cloud et utilisation du quota gratuit de Gemini (ex: Gemini 3.5 Flash) via Google AI Studio.
 
 ---
 
-## 🚀 Préqurequis & Obtention de la Clé API Gemini (Gratuit)
+## 🚀 Prérequis & Obtention de la Clé API Gemini (Gratuit)
 
 1. Rendez-vous sur [Google AI Studio](https://aistudio.google.com/).
 2. Connectez-vous avec votre compte Google.
@@ -21,7 +22,14 @@ Ce projet propose un chatbot interactif dédié aux parents du groupe SGDF Aufr�
 
 ## 💻 Test en Local
 
-### Méthode standard (virtualenv)
+### Avec `uv` (Recommandé - Ultra rapide)
+
+```bash
+uv sync --all-extras
+uv run streamlit run app.py
+```
+
+### Méthode standard (`pip` / `virtualenv`)
 
 1. Créez et activez un environnement virtuel Python (`venv`) :
    * **Linux / macOS** :
@@ -38,10 +46,10 @@ Ce projet propose un chatbot interactif dédié aux parents du groupe SGDF Aufr�
      .venv\Scripts\activate
      ```
 
-2. Installez les dépendances (développement inclus) :
+2. Installez les dépendances en mode éditable :
 
    ```bash
-   pip install -r requirements-dev.txt
+   pip install -e ".[dev]"
    ```
 
 3. Définissez les variables d'environnement, soit dans le terminal :

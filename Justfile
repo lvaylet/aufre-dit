@@ -16,13 +16,13 @@ venv:
         {{python}} -m venv {{venv_dir}}; \
     fi
 
-# Installe les dépendances principales / production (requirements.txt)
+# Installe les dépendances principales / production
 install: venv
-    {{bin_dir}}/pip install -r requirements.txt
+    {{bin_dir}}/pip install -e .
 
-# Installe les dépendances pour l'environnement de test et de dev local (requirements-dev.txt)
+# Installe les dépendances pour l'environnement de test et de dev local
 install-dev: venv
-    {{bin_dir}}/pip install -r requirements-dev.txt
+    {{bin_dir}}/pip install -e ".[dev]"
 
 # Lance l'application Streamlit en local avec rechargement automatique à la sauvegarde
 run:

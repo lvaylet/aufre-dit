@@ -12,8 +12,14 @@ mock_response = MagicMock()
 mock_response.text = "Contenu FAQ de test"
 mock_response.status_code = 200
 
-with patch("requests.get", return_value=mock_response), patch("google.genai.Client"):
-    from app import format_export_url, load_static_documents
+with patch("httpx.get", return_value=mock_response), patch("google.genai.Client"):
+    from app import (
+        Settings,
+        build_system_instruction,
+        format_export_url,
+        load_faq_document,
+        load_static_documents,
+    )
 
 DOC_ID = "1PtDzEbEDFFKPgl_T8rz3PCiLrU8X2Fh2qqsZQqEOgt0"
 EXPECTED_URL = f"https://docs.google.com/document/d/{DOC_ID}/export?format=txt"
@@ -54,6 +60,45 @@ def test_load_static_documents(tmp_path: Path) -> None:
     non_txt.write_text("fake pdf", encoding="utf-8")
 
     result = load_static_documents(str(tmp_path))
-    assert "=== DOCUMENT : guide.txt ===" in result
+    assert "=== DOCUMENT STATIC : guide.txt ===" in result
     assert "Contenu du guide" in result
     assert "fake pdf" not in result
+
+
+def test_build_system_instruction() -> None:
+    """Test que la consigne système inclut la règle de citation des sources."""
+    instruction = build_system_instruction(
+        "Contenu FAQ de test", "Contenu static de test"
+    )
+    assert "sources" in instruction.lower()
+    assert "FAQ Google Doc" in instruction
+    assert "/static" in instruction
+
+
+def test_settings_validation() -> None:
+    """Test que la classe Settings valide correctement les variables d'environnement."""
+    with patch.dict(
+        os.environ,
+        {
+            "GEMINI_API_KEY": "test_key",
+            "FAQ_DOC_URL": "https://docs.google.com/document/d/123",
+        },
+    ):
+        settings = Settings(
+            gemini_api_key="test_key",
+            faq_doc_url="https://docs.google.com/document/d/123",
+        )
+        assert settings.gemini_api_key == "test_key"
+        assert settings.gemini_model == "gemini-3.5-flash"
+
+
+def test_load_faq_document_success() -> None:
+    """Test le chargement réussi de la FAQ via httpx."""
+    with patch("httpx.get") as mock_get:
+        mock_res = MagicMock()
+        mock_res.text = "FAQ Content"
+        mock_res.raise_for_status.return_value = None
+        mock_get.return_value = mock_res
+
+        content = load_faq_document("https://docs.google.com/document/d/123")
+        assert content == "FAQ Content"

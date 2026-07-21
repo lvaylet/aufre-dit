@@ -4,7 +4,9 @@
     with ps; [
       streamlit
       google-genai
-      requests
+      httpx
+      pydantic
+      pydantic-settings
       pytest
     ]);
 in
@@ -13,6 +15,7 @@ in
 
     buildInputs = with pkgs; [
       pythonEnv
+      uv
       just
       git
       ruff
