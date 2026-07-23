@@ -1,6 +1,53 @@
+# ------------------------------------------------------------------------------
+# Secrets & Variables d'environnement
+# ------------------------------------------------------------------------------
 .env
-__pycache__/
-*.pyc
+.env.*
+!.env.example
+
+# Secrets Streamlit (clés d'API, identifiants sensibles)
 .streamlit/secrets.toml
+
+# ------------------------------------------------------------------------------
+# Bytecode & Caches Python
+# ------------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+
+# ------------------------------------------------------------------------------
+# Environnements Virtuels & Dépendances
+# ------------------------------------------------------------------------------
+.venv/
+venv/
+env/
+ENV/
 .direnv/
+
+# Packaging & Distribution Python
 *.egg-info/
+.eggs/
+dist/
+build/
+
+# ------------------------------------------------------------------------------
+# Tests, Linters & Couverture de code
+# ------------------------------------------------------------------------------
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# ------------------------------------------------------------------------------
+# Fichiers Système & Éditeurs / IDE
+# ------------------------------------------------------------------------------
+# macOS & Windows
+.DS_Store
+Thumbs.db
+
+# VS Code & PyCharm / IntelliJ
+.vscode/
+.idea/
+*.swp
+*~
