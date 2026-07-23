@@ -166,6 +166,41 @@ pre-commit run --all-files
 
 ---
 
+## 🛠️ Harnais d'Ingénierie SDLC (Harness Engineering)
+
+Ce projet intègre un harnais d'orchestration SDLC piloté par des spécifications Markdown. Il permet aux agents d'IA de collaborer pour développer, tester, auditer la sécurité et déployer de nouvelles fonctionnalités de manière automatisée et déterministe.
+
+### Structure du Harnais (`.harness/`)
+
+* `templates/` : Contient le modèle de spécification fonctionnelle ([spec_template.md](.harness/templates/spec_template.md)) et le modèle de rapport QA ([qa_report_template.md](.harness/templates/qa_report_template.md)).
+* `specs/` : Reçoit les spécifications fonctionnelles des fonctionnalités à développer (ex: [SPEC-001-exemple.md](.harness/specs/SPEC-001-exemple.md)).
+* `agents/` : Définitions des prompts système pour chaque rôle du SDLC (`orchestrator`, `developer`, `tester`, `qa_reviewer`, `security_auditor`, `observability`, `deployment`).
+* `skills/` : Procédures et compétences exécutables réutilisables (`parse-spec`, `check-quality-gates`, `streamlit-security-audit`, `generate-unit-tests`).
+
+### Flux de Contribution via le Harnais
+
+1. **Rédiger une Spécification** : Copiez `.harness/templates/spec_template.md` vers `.harness/specs/SPEC-XXX-ma-fonctionnalite.md` et complétez les User Stories (format `Given/When/Then`), les modèles Pydantic et la matrice de tests.
+2. **Invoquer l'Agent Orchestrateur** :
+   * **En chat interactif** : Demandez simplement à l'assistant :
+
+     ```text
+     "Orchestre le développement de la spécification .harness/specs/SPEC-001-exemple.md"
+     ```
+
+   * **En ligne de commande via CLI (`agentapi`)** :
+
+     ```bash
+     agentapi new-conversation --title="Orchestration SPEC-001" "$(cat .harness/agents/orchestrator.md)
+
+     Invoque le harnais pour implémenter la spécification : .harness/specs/SPEC-001-exemple.md"
+     ```
+
+   * **En arrière-plan automatisé (Sidecar / Cron)** : Un processus d'arrière-plan surveille le répertoire `.harness/specs/` et déclenche automatiquement une nouvelle conversation `agentapi` dès qu'un fichier de spécification `.md` est créé ou modifié.
+
+3. **Valider les Portes de Qualité (Quality Gates)** : Exécutez la commande `just check` pour valider les linters (`ruff`), le typage strict (`pyright`) et les tests unitaires (`pytest`).
+
+---
+
 ## 🌐 Hébergement Gratuit et Simple (Streamlit Community Cloud)
 
 1. Publiez ce projet sur votre compte **GitHub** (dépôt public ou privé).
